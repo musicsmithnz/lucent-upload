@@ -1,0 +1,17 @@
+body {
+    display: flex; 
+    min-height: 100vh;
+    flex-direction: column;
+    --theme-primary: #666688;
+}
+
+main {
+    flex: 1 0 auto;
+}
+paper-button {
+    background: var( --theme-primary, #1454589);
+}
+app-toolbar {
+    background: var( --theme-primary, #1454589);
+}
+

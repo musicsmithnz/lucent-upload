@@ -1,0 +1,59 @@
+{
+  "name": "lucent-upload",
+  "version": "0.0.1",
+  "description": "lucent-upload",
+  "author": "",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "PINE",
+    "Web Components",
+    "Polymer",
+    "IPFS",
+    "Node",
+    "Express",
+    "template"
+  ],
+  "devDependencies": {
+    "@babel/core": "*7.0.0-beta.40",
+    "@babel/preset-env": "*7.0.0-beta.40",
+    "@polymer/polymer": "^3.0.0-pre.11",
+    "@webcomponents/webcomponentsjs": "^1.1.0",
+    "babel-loader": "*7.1.4",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.10",
+    "file-loader": "^1.1.11",
+    "husky": "^0.14.3",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.0.6",
+    "image-webpack-loader": "^4.1.0",
+    "nsp": "^2.6.3",
+    "request": "^2.83.0",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.1.0",
+    "webpack-cli": "^2.0.10"
+  },
+  "scripts": {
+    "build:dev": "webpack --mode development --config config/webpack.config.dev.js",
+    "build:prod": "webpack --mode production --config config/webpack.config.prod.js",
+    "prepublish": "nsp check"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@polymer/paper-progress": "^3.0.0-pre.11",
+    "Buffer": "0.0.0",
+    "async": "^2.6.0",
+    "ipfs": "^0.28.2",
+    "ipfs-api": "^18.2.1"
+  },
+  "directories": {
+    "docs": "docs",
+    "lib": "lib",
+    "resources": "resources"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
