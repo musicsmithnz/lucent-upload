@@ -41,9 +41,9 @@ npm manifest:
       "copy-webpack-plugin": "^4.5.1",
       "css-loader": "^0.28.10",
       "file-loader": "^1.1.11",
-      "husky": "^0.14.3",
       "html-loader": "^0.5.5",
       "html-webpack-plugin": "^3.0.6",
+      "husky": "^0.14.3",
       "image-webpack-loader": "^4.1.0",
       "nsp": "^2.6.3",
       "request": "^2.83.0",
@@ -58,9 +58,9 @@ npm manifest:
     },
     "license": "ISC",
     "dependencies": {
-      "@polymer/paper-progress": "^3.0.0-pre.11",
-      "Buffer": "0.0.0",
+      "@polymer/paper-progress": "^3.0.0-pre.12",
       "async": "^2.6.0",
+      "buffer": "^5.1.0",
       "ipfs": "^0.28.2",
       "ipfs-api": "^18.2.1"
     },
@@ -531,7 +531,7 @@ Lockfile:
     dependencies:
       "@polymer/polymer" "3.0.0-pre.12"
   
-  "@polymer/paper-progress@^3.0.0-pre.11":
+  "@polymer/paper-progress@^3.0.0-pre.12":
     version "3.0.0-pre.12"
     resolved "https://registry.yarnpkg.com/@polymer/paper-progress/-/paper-progress-3.0.0-pre.12.tgz#36d163e25929f15cda8eecd08c7a3f7e9a97d3e3"
     dependencies:
@@ -566,10 +566,6 @@ Lockfile:
   "@webcomponents/webcomponentsjs@^1.0.0", "@webcomponents/webcomponentsjs@^1.1.0":
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-1.1.1.tgz#50caffdf8a901e5357532b7d85e776637a56446a"
-  
-  Buffer@0.0.0:
-    version "0.0.0"
-    resolved "https://registry.yarnpkg.com/Buffer/-/Buffer-0.0.0.tgz#82cf8e986a2109ff6d1d6f1c436e47d07127aea4"
   
   abbrev@1:
     version "1.1.1"
@@ -1996,6 +1992,13 @@ Lockfile:
       base64-js "^1.0.2"
       ieee754 "^1.1.4"
       isarray "^1.0.0"
+  
+  buffer@^5.1.0:
+    version "5.1.0"
+    resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.1.0.tgz#c913e43678c7cb7c8bd16afbcddb6c5505e8f9fe"
+    dependencies:
+      base64-js "^1.0.2"
+      ieee754 "^1.1.4"
   
   builtin-modules@^1.0.0:
     version "1.1.1"
@@ -5983,7 +5986,7 @@ Lockfile:
       typedarray-to-buffer "~1.0.0"
       xtend "~2.1.2"
   
-  "level-js@github:timkuijsten/level.js#idbunwrapper":
+  level-js@timkuijsten/level.js#idbunwrapper:
     version "2.2.3"
     resolved "https://codeload.github.com/timkuijsten/level.js/tar.gz/18e03adab34c49523be7d3d58fafb0c632f61303"
     dependencies:
@@ -7064,7 +7067,7 @@ Lockfile:
     dependencies:
       duplexer2 "0.0.2"
   
-  "multiplex@github:dignifiedquire/multiplex":
+  multiplex@dignifiedquire/multiplex:
     version "6.7.0"
     resolved "https://codeload.github.com/dignifiedquire/multiplex/tar.gz/b5d5edd30454e2c978ee8c52df86f5f4840d2eab"
     dependencies:
@@ -10687,7 +10690,7 @@ Trace:
   Exit code: 2
   Command: sh
   Arguments: -c webpack --mode development --config config/webpack.config.dev.js
-  Directory: /home/raymond/dev/pine/lucent-upload
+  Directory: /home/raymond/dev/@lucentray/lucent-upload
   Output:
   
       at ProcessTermError.MessageError (/usr/share/yarn/lib/cli.js:186:110)

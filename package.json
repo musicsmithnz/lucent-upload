@@ -25,9 +25,9 @@
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.10",
     "file-loader": "^1.1.11",
-    "husky": "^0.14.3",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.0.6",
+    "husky": "^0.14.3",
     "image-webpack-loader": "^4.1.0",
     "nsp": "^2.6.3",
     "request": "^2.83.0",
@@ -42,9 +42,9 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@polymer/paper-progress": "^3.0.0-pre.11",
-    "Buffer": "0.0.0",
+    "@polymer/paper-progress": "^3.0.0-pre.12",
     "async": "^2.6.0",
+    "buffer": "^5.1.0",
     "ipfs": "^0.28.2",
     "ipfs-api": "^18.2.1"
   },

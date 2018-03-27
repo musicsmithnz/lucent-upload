@@ -1,9 +1,11 @@
+'use strict'
+
 import { PolymerElement } from "@polymer/polymer/polymer-element.js";
 import * as template_string from "./lucent-upload.html";
 const ipfsAPI = require('ipfs-api');
 
 var ipfs = ipfsAPI({
-    host: '128.199.220.242',
+    host: '128.199.245.62',
     port: '5002',
     protocol: 'http'
 });
@@ -31,45 +33,111 @@ export class LucentUpload extends PolymerElement {
 	        this.result_file_size = this._bytesToSize(file.size);
         }
     };
+    _printFileInfo(files){
+        for (let file of files){
+            for (key of Object.keys(files)){
+                let nameSpaces=40 - file.name.length
+                let typeSpaces=20 - file.type.length
+                let sizeSpaces=20 - this._bytesToSize(file.size).length
+                let infoString= file.name + Array(nameSpaces).join(" ") + 
+                                file.type + Array(typeSpaces).join(" ") + 
+                                this._bytesToSize(file.size) + Array(sizeSpaces).join(" ") + 
+                                file.webkitRelativePath;
+                    console.log(infoString)
+            }
+        }
+    }
 
     fileSelected(e){
         var files = e.target.files
+        var fileData = [];
+
+        console.log("number of files detected: " + files.length)
+        this._printFileInfo(files)
         for (let file of files){
-	        var reader = new FileReader();
-            var preview = document.createElement('img');
+	        let reader = new FileReader();
+            let blob= new Blob([file])
             reader.onload = e => {
-                preview.height = '100%';
-    	        let parameters={
-                    'status': 'ready',
-                    'name': file.name,
-            	    'type': file.type,
-                    'fileBin': reader.result
-                };
-                this._saveFile(parameters)
-                this.push('files', parameters);
+                let folder= file.webkitRelativePath.split('/')[0]
+                /*  
+                fileData.push({
+                    'status'    : 'ready',
+                    'name'      : file.name,
+                    'path'      : file.webkitRelativePath,
+                    'parent'    : folder,
+            	    'type'      : file.type,
+                    'fileBin'   : reader.result
+                });
+                */
+                fileData.push({
+                    'path'      : file.webkitRelativePath,
+                    'content'   : reader.result 
+                });
             }
-            reader.readAsArrayBuffer(new Blob([file]))
+            reader.readAsArrayBuffer(blob)
         }
+        //updateTable()
+            console.log(files);
+            console.log(typeof(files));
+            console.log(files instanceof Array);
+            console.log(Object.keys(files));
+            console.log(files.length)
+
+            console.log(fileData);
+            console.log(typeof(fileData));
+            console.log(fileData instanceof Array);
+            console.log(Object.keys(fileData));
+            console.log(fileData.length)
+        this._saveFiles(fileData)
     };
 
-    _saveFile(parameters){
-        var fileBuffer= Buffer(parameters.fileBin)
-        ipfs.files.add({
-            path: parameters.name,
-            content: fileBuffer
-        }, { 
-            recursive: true,
-            progress: (prog) => console.log(`received: ${prog}`)
-        }, (err, filesAdded) => {
-            if (err) {
-                console.log('error found: ' + err)
-            } else {
-                console.log('\nAdded file:', filesAdded);
+    _saveFiles(fileData){
+        console.log(fileData)
+        function prepareData(fileData, cb){
+            var ipfsFiles=[];
+            console.log(fileData);
+            console.log(typeof(fileData));
+            console.log(fileData instanceof Array);
+            console.log(Object.keys(fileData));
+            console.log(fileData.length)
+            for (let index in fileData){ 
+                file=fileData[index]
+                console.log(file)
+                ipfsFiles.push({
+                    path : file.path,
+                    content : file.fileBin
+                });
+                console.log('ipfsFile: ' + file.path)
             }
-        })
+            console.log('ipfsFiles: ' + ipfsFiles)
+            cb(ipfsFiles)
+        }
+        function ipfsUpload(ipfsFiles){
+            ipfs.files.add(
+                ipfsFiles
+                , { 
+                    recursive: true
+                },
+                (err, filesAdded) => {
+                    if (err) {
+                        console.log('error found: ' + err)
+                    } else {
+                        console.log(filesAdded)
+                        for ( let fileAdded of filesAdded ) {
+                            console.log('\nFile uploaded: ' + 
+                                fileAdded.hash + ' ' + 
+                                fileAdded.path + ' ' +
+                                fileAdded.size
+                            )
+                        }
+                    }
+                }
+            )
+        }
+        prepareData(fileData, ipfsUpload)
     };
 
-    _getFile(parameters){
+    _getFile(fileInfo){
         ipfs.files.get(
             '/ipfs/Qme88zhRyhmpv7eN11We2wG1NvyFQXrgoR5tVLZPjNXkpz/zerg.jpeg',
             function(err, res){
@@ -90,7 +158,6 @@ export class LucentUpload extends PolymerElement {
         this.max_file_size = 10000000000;
         this.upload_timer = 0;
         this.result_file_size = '';
-        this.files=[];
     };
 
     static get observers(){}
