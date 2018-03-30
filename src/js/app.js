@@ -1,6 +1,9 @@
 /**
  * COMPONENTS
  */
+import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js'
+import '../../node_modules/browser-es-module-loader/dist/babel-browser-build.js'
+import '../../node_modules/browser-es-module-loader/dist/browser-es-module-loader.js'
 
 import '../images/favicon.png'
 import '../images/favicon.svg'

@@ -44,9 +44,10 @@
   "dependencies": {
     "@polymer/paper-progress": "^3.0.0-pre.12",
     "async": "^2.6.0",
+    "browser-es-module-loader": "^0.4.1",
     "buffer": "^5.1.0",
     "ipfs": "^0.28.2",
-    "ipfs-api": "^18.2.1"
+    "ipfs-api": "^19.0.0"
   },
   "directories": {
     "docs": "docs",
