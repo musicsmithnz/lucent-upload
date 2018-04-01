@@ -2,13 +2,20 @@ import { PolymerElement } from "@polymer/polymer/polymer-element.js";
 import * as template_string from "./lucent-upload.html";
 const ipfsAPI = require('ipfs-api');
 
+/*
 var ipfs = ipfsAPI({
     host: '128.199.245.62',
     port: '5002',
     protocol: 'http'
 });
+*/
 
 export class LucentUpload extends PolymerElement {
+    var _ipfs = ipfsAPI({
+        host: this.host,
+        port: this.port,
+        protocol: this.protocol
+    })
     _bytesToSize(bytes) {
         let sizes = ['Bytes', 'KB', 'MB'];
         if (bytes === 0) {
@@ -43,62 +50,65 @@ export class LucentUpload extends PolymerElement {
     }
 
     async fileSelected(e){
-        var files = e.target.files
-        console.log("number of files detected: " + files.length)
-        async function loadData(fileList){
-            var ipfsFiles = new Array()
+        var files = e.target.files;
+        let ipfsFiles = createIpfsDataArray(files);
+
+        setTimeout(function(){
+            uploadFiles(ipfsFiles);
+        },10000);
+
+        function createIpfsDataArray(fileList){
+            let ipfsFiles=[];
+            var ipfsFile;
             for (let file of fileList){
         	    var reader = new FileReader();
-                var blob= new Blob([file])
-                reader.onload = async () => {
-                    var path = await file.webkitRelativePath;
-                    var content = await reader.result;
-                    ipfsFiles.push({
+                var blob= new Blob([file]);
+                reader.onload = function() {
+                    var path = file.webkitRelativePath;
+                    var content = reader.result;
+                    ipfsFile = {
                         path      : path,
                         content   : content
-                    });
-                }
-                reader.readAsArrayBuffer(blob)
-            }
-            for (let ipfsFile of ipfsFiles){
-                console.log(ipfsFile);
+                    };
+                    ipfsFiles.push(ipfsFile);
+                };
+                reader.readAsArrayBuffer(blob);
             }
             return ipfsFiles
         };
-        async function uploadFiles(ipfsFiles){
-            console.log(ipfsFiles)
+
+        function uploadFiles(ipfsFiles){
+            console.log(ipfsFiles);
             for (let ipfsFile of ipfsFiles){
                 console.log(ipfsFile);
-            }
-            ipfs.files.add(
-                ipfsFiles
-                , { 
-                    recursive: true
-                },
-                (err, filesAdded) => {
-                    if (err) {
-                        console.log('error found: ' + err)
-                    } else {
-                        console.log(filesAdded)
-                        for ( let fileAdded of filesAdded ) {
-                            console.log('\nFile uploaded: ' + 
-                                fileAdded.hash + ' ' + 
-                                fileAdded.path + ' ' +
-                                fileAdded.size
-                            )
+                var ipfsPath = ipfsFile.path;
+                var ipfsContent = ipfsFile.content;
+                ipfs.files.add([{
+                    path: ipfsPath,
+                    content: ipfsContent
+                }], (err, fileAdded) => {
+                        if (err) {
+                            console.log('error found: ' + err);
+                        } else {
+                            fileAdded.hash + ' ' + 
+                            fileAdded.path + ' ' +
+                            fileAdded.size
                         }
                     }
-                }
-            )
+                )
+            }
+            return ipfsFiles;
         };
 
-        var ipfsFiles =  await loadData(files)
-        for (var ipfsFile of ipfsFiles){
-            console.log(ipfsFile);
+        for (var file of files){
+            console.log('file: ' + file.name);
         }
-        console.log(files)
-        console.log(ipfsFiles)
-        uploadFiles(ipfsFiles)
+            for ( let f of ipfsFiles){
+                console.log(f)
+            }
+            /*
+        var uploaded = uploadFiles(ipfsFiles)
+            */
     };
 
 
@@ -133,8 +143,11 @@ export class LucentUpload extends PolymerElement {
 
 	static get properties() {
     	return {
-    	    name: String
-	    }
+            name: String,
+            host: String,
+            port: String,
+            protocol: String
+	    };
     }
 
     static get is(){
